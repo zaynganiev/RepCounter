@@ -37,3 +37,10 @@ share/python-wheels/
 # OS
 .DS_Store
 Thumbs.db
+# Project-specific
+frame.jpg
+1/
+2/
+*.pkl
+*.model
+.DS_Store
