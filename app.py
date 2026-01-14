@@ -45,13 +45,37 @@ class App:
         self.btn_class_two.pack(anchor=tk.CENTER, expand=True)
 
         self.btn_train = tk.Button(self.window, text="Train Model", width=50, command=lambda: self.model.train_model(self.counters))
-        self.btn_train(anchor=tk.CENTER, expand=True)
+        self.btn_train.pack(anchor=tk.CENTER, expand=True)
+
+        self.btn_reset = tk.Button(self.window, text="Reset", width=50, command=self.reset)
+        self.btn_reset.pack(anchor=tk.CENTER, expand=True)
+
+        self.counter_label = tk.Label(self.window, text=f"{self.rep_counter}")
+        self.counter_label.config(font=("Arial", 24))
+        self.counter_label.pack(anchor=tk.CENTER, expand=True)
 
     def update(self):
         pass
 
-    def counting_toggle(self):
+    def predict(self):
         pass
 
+    def counting_toggle(self):
+        self.counting_enabled = not self.counting_enabled
+
     def save_for_class(self, class_num):
-        pass
+        ret, frame = self.camera.get_frame()
+        if not os.path.exists("1"):
+            os.mkdir("1")
+        if not os.path.exists("2"):
+            os.mkdir("2")
+
+        cv2.imwrite(f"{class_num}/frame{self.counters[class_num-1]}.jpg", cv2.cvtColor(frame, cv2.COLOR_RGB2GRAY))
+        img = PIL.Image.open(f"{class_num}/frame{self.counters[class_num-1]}.jpg")
+        img.thumbnail((150, 150), PIL.Image.ANTIALIAS)
+        img.save(f"{class_num}/frame{self.counters[class_num-1]}.jpg")
+
+        self.counters[class_num-1] += 1
+
+    def reset(self):
+        self.rep_counter = 0
