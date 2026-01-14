@@ -25,4 +25,4 @@ class Camera:
                 return ret, None
             
         else:
-            return None
+            return False, None
